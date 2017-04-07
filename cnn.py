@@ -84,34 +84,3 @@ model.fit(data, label, batch_size=100, nb_epoch=10 ,shuffle=True,verbose=1 ,vali
 
 score=model.evaluate(test_data,test_label,batch_size=100,verbose=1)
 print(score)
-"""
-#使用data augmentation的方法
-#一些参数和调用的方法，请看文档
-datagen = ImageDataGenerator(
-        featurewise_center=True, # set input mean to 0 over the dataset
-        samplewise_center=False, # set each sample mean to 0
-        featurewise_std_normalization=True, # divide inputs by std of the dataset
-        samplewise_std_normalization=False, # divide each input by its std
-        zca_whitening=False, # apply ZCA whitening
-        rotation_range=20, # randomly rotate images in the range (degrees, 0 to 180)
-        width_shift_range=0.2, # randomly shift images horizontally (fraction of total width)
-        height_shift_range=0.2, # randomly shift images vertically (fraction of total height)
-        horizontal_flip=True, # randomly flip images
-        vertical_flip=False) # randomly flip images
-
-# compute quantities required for featurewise normalization
-# (std, mean, and principal components if ZCA whitening is applied)
-datagen.fit(data)
-
-for e in range(nb_epoch):
-    print('-'*40)
-    print('Epoch', e)
-    print('-'*40)
-    print("Training...")
-    # batch train with realtime data augmentation
-    progbar = generic_utils.Progbar(data.shape[0])
-    for X_batch, Y_batch in datagen.flow(data, label):
-        loss,accuracy = model.train(X_batch, Y_batch,accuracy=True)
-        progbar.add(X_batch.shape[0], values=[("train loss", loss),("accuracy:", accuracy)] )
-
-"""
